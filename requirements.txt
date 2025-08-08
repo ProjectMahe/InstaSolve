@@ -1,0 +1,7 @@
+# InstaSolve - No external dependencies required
+# This is a static HTML/CSS/JS project
+
+# use real time APIs
+flask
+requests
+openai
