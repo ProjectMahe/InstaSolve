@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InstaSolve - AI-Powered Eco-Anxiety Solver</title>
+    <!-- Tailwind CSS CDN for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for a cleaner look and feel */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0fdf4; /* Light green background */
+        }
+        /* Custom scrollbar styling for a nicer user experience */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e0f2f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #10b981; /* Green thumb */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #059669;
+        }
+        /* Simple keyframe animation for a fade-in effect */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen items-center justify-center p-4 text-gray-800">
+
+    <!-- Main App Container -->
+    <div class="w-full max-w-2xl bg-white p-8 rounded-3xl shadow-xl border border-gray-100 flex flex-col items-center">
+
+        <!-- Header -->
+        <header class="text-center mb-6">
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight">InstaSolve</h1>
+            <p class="text-base sm:text-lg text-gray-500 mt-2">Your guide to turning eco-anxiety into action. <br><span class="text-xs text-green-600 font-semibold">Powered by Gemini AI</span></p>
+        </header>
+
+        <!-- Problem Input Form -->
+        <form id="problem-form" class="w-full">
+            <textarea
+                id="problem-input"
+                class="w-full p-4 text-lg border-2 border-green-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-green-400 focus:border-green-400 transition-all duration-300 resize-none h-32 mb-4 placeholder-gray-400"
+                placeholder="Describe a climate-related problem you're feeling, like 'I'm worried about plastic pollution in my town' or 'I feel helpless about the future.'"
+            ></textarea>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button
+                    type="submit"
+                    id="solve-button"
+                    class="bg-green-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-green-700 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-400"
+                >
+                    Solve It!
+                </button>
+                <button
+                    type="button"
+                    id="draft-button"
+                    class="bg-blue-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-400"
+                >
+                    ✨ Draft an Email
+                </button>
+            </div>
+        </form>
+
+        <!-- Loading Indicator -->
+        <div id="loading-indicator" class="hidden mt-8 flex flex-col items-center">
+            <div class="w-12 h-12 border-4 border-green-400 border-t-transparent rounded-full animate-spin"></div>
+            <p class="mt-2 text-sm text-gray-500">The AI is thinking...</p>
+        </div>
+
+        <!-- Solution Display Area -->
+        <div id="solution-output" class="hidden w-full mt-8 p-6 bg-green-50 rounded-2xl border border-green-200 animate-fadeIn prose max-w-none">
+            <!-- Content will be injected here -->
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-8 text-center text-gray-400 text-sm">
+        <p>&copy; 2024 InstaSolve. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript for the real AI logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('problem-form');
+            const input = document.getElementById('problem-input');
+            const output = document.getElementById('solution-output');
+            const loading = document.getElementById('loading-indicator');
+            const solveButton = document.getElementById('solve-button');
+            const draftButton = document.getElementById('draft-button');
+            const markdownParserScript = document.createElement('script');
+            markdownParserScript.src = 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
+            document.head.appendChild(markdownParserScript);
+
+            const generateContent = async (systemPrompt) => {
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: systemPrompt }] });
+                const payload = { contents: chatHistory };
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+                const delay = (ms) => new Promise(res => setTimeout(res, ms));
+
+                let responseText = '';
+                for (let i = 0; i < 3; i++) { // Retry up to 3 times with exponential backoff
+                    try {
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+
+                        const result = await response.json();
+
+                        if (result.candidates && result.candidates.length > 0 &&
+                            result.candidates[0].content && result.candidates[0].content.parts &&
+                            result.candidates[0].content.parts.length > 0) {
+                            responseText = result.candidates[0].content.parts[0].text;
+                            break; // Exit the loop on success
+                        } else {
+                            throw new Error("Invalid API response format");
+                        }
+                    } catch (error) {
+                        console.error(`Attempt ${i + 1} failed:`, error);
+                        if (i < 2) {
+                            await delay(Math.pow(2, i) * 1000); // Exponential backoff
+                        } else {
+                            responseText = "Sorry, I'm having trouble connecting right now. Please try again in a moment!";
+                        }
+                    }
+                }
+                return responseText;
+            };
+
+            const handleSubmission = async (e, actionType) => {
+                e.preventDefault();
+                const userPrompt = input.value.trim();
+
+                if (userPrompt === '') {
+                    output.innerHTML = '<p class="text-red-500">Please describe your problem before continuing!</p>';
+                    output.classList.remove('hidden');
+                    return;
+                }
+
+                output.innerHTML = '';
+                output.classList.add('hidden');
+                loading.classList.remove('hidden');
+
+                let systemPrompt = '';
+                if (actionType === 'solve') {
+                    systemPrompt = `You are InstaSolve, an empathetic and supportive AI assistant designed to help teenagers with eco-anxiety. When a user describes their feelings or a climate-related problem, you should provide a compassionate and encouraging response.
+
+Your response should follow this structure precisely using Markdown:
+1.  **Start with a short, empathetic opening statement.** Acknowledge their feelings.
+2.  **Provide a heading "Quick Actions You Can Take:"** followed by a bulleted list of 3-5 specific, actionable tips. These tips should be practical and manageable for a teenager.
+3.  **Provide a heading "Explore More:"** followed by a bulleted list of 2-3 helpful, teen-friendly resources. The resources should be formatted as markdown links with a descriptive title and a mock URL.
+4.  **Crucially, do not use bullet points or headings for the opening statement.** Only use them for the tips and resources.
+
+Example of the expected output format:
+That's a powerful feeling, and it's totally normal to feel that way.
+
+### Quick Actions You Can Take:
+- Start a conversation with a friend about your feelings.
+- Research one sustainable brand you like and follow them on social media.
+- Take a 15-minute walk in a local park to reconnect with nature.
+
+### Explore More:
+- [A Great Resource for Teens](https://example.com/teens-resource)
+- [Sustainable Fashion Tips](https://example.com/sustainable-fashion)
+
+Now, respond to the user's problem based on their input: "${userPrompt}"`;
+
+                } else if (actionType === 'draft') {
+                    systemPrompt = `You are InstaSolve, an empathetic and supportive AI assistant for teenagers. A user wants to draft an email or letter based on a problem they described. Your task is to generate a draft of a professional, yet friendly, email. The email should have a clear subject line and a body with a friendly greeting, a clear statement of the problem or request, and a polite closing. Do not include placeholders like "[Your Name]".
+
+Here is the user's problem: "${userPrompt}"`;
+                }
+
+                const responseText = await generateContent(systemPrompt);
+
+                loading.classList.add('hidden');
+                output.innerHTML = marked.parse(responseText); // Use a Markdown parser to render the response
+                output.classList.remove('hidden');
+            };
+
+            // Event listeners for the two buttons
+            solveButton.addEventListener('click', (e) => handleSubmission(e, 'solve'));
+            draftButton.addEventListener('click', (e) => handleSubmission(e, 'draft'));
+        });
+    </script>
+</body>
+</html>
