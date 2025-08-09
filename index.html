@@ -4,6 +4,179 @@
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>InstaSolve</title>
+    <style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #f5f8ff, #e6f0ff);
+        text-align: center;
+        padding: 20px;
+        margin: 0;
+        min-height: 100vh;
+        box-sizing: border-box;
+        line-height: 1.6;
+        color: #333;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding-bottom: 80px; /* Space for footer */
+    }
+
+    h1 {
+        color: #1e6fdf;
+        margin-bottom: 15px;
+        font-size: 2.2rem;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+
+    p {
+        color: #4a5568;
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+        line-height: 1.6;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .input-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 25px;
+        width: 100%;
+    }
+
+    input {
+        padding: 14px 18px;
+        width: 100%;
+        max-width: 400px;
+        border-radius: 12px;
+        border: 1px solid #cbd5e0;
+        font-size: 1.1rem;
+        box-sizing: border-box;
+        background: white;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: #1e90ff;
+        box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.2);
+    }
+
+    button {
+        padding: 14px 28px;
+        border: none;
+        background: linear-gradient(to right, #1e90ff, #0066cc);
+        color: white;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        width: 100%;
+        max-width: 400px;
+        transition: all 0.3s ease;
+        margin-top: 5px;
+    }
+
+    button:hover, button:focus {
+        background: linear-gradient(to right, #187bcd, #0055aa);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+
+    .result {
+        background: white;
+        padding: 25px;
+        margin-top: 25px;
+        border-radius: 12px;
+        width: 100%;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        font-size: 1.1rem;
+        color: #2d3748;
+        word-break: break-word;
+        border-left: 4px solid #1e90ff;
+        text-align: left;
+        animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Fixed Footer Styling */
+    .fixed-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 1.2rem;
+        background-color: rgba(255, 255, 255, 0.9);
+        color: #4a5568;
+        text-align: center;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 0.9rem;
+        border-top: 1px solid #e2e8f0;
+        z-index: 100;
+        backdrop-filter: blur(5px);
+    }
+
+    .fixed-footer p {
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+    /* Responsive adjustments */
+    @media (min-width: 500px) {
+        .input-group {
+            flex-direction: row;
+            justify-content: center;
+            align-items: stretch;
+        }
+        
+        input {
+            max-width: 350px;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        
+        button {
+            max-width: 150px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            margin-top: 0;
+        }
+    }
+
+    @media (max-width: 500px) {
+        h1 {
+            font-size: 1.8rem;
+        }
+        
+        p {
+            font-size: 1rem;
+            padding: 0 10px;
+        }
+        
+        input, button {
+            max-width: 100%;
+        }
+    }
+
+    /* Tap target sizing for better mobile UX */
+    a, button, input, select, textarea {
+        min-height: 48px;
+    }
+    </style>
 <style>
     body {
     font-family: Arial, sans-serif;
