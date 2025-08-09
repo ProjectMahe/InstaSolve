@@ -12,6 +12,10 @@ Built for the Redmond Library Hackathon 2025.
 ## 📸 Demo
 ![Demo Screenshot](assets/screenshots/Screenshot_2025_0809_072031.png)
 
+![Demo Video](https://youtube.com/shorts/OMWSInREdF8?feature=share)
+
+##Video: https://youtube.com/shorts/OMWSInREdF8?feature=share
+
 ## 🛠 Tech Stack
 - HTML
 - CSS
