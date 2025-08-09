@@ -114,19 +114,221 @@ function solve() {
 
     // Predefined "demo API" problems and solutions
     const solutions = [
-        { keywords: ["stress", "tired", "burnout"], 
-          response: "Take a short walk, drink water, and try deep breathing for 5 minutes." },
-        { keywords: ["study", "exam", "homework"], 
-          response: "Use the Pomodoro technique: 25 minutes of focus, then 5 minutes of rest." },
-        { keywords: ["climate", "environment", "pollution"], 
-          response: "Reduce single-use plastic, bike or walk more, and recycle at home." },
-        { keywords: ["sad", "lonely", "depressed"], 
-          response: "Reach out to a friend or family member, or try writing your thoughts down." },
-        { keywords: ["happy", "excited", "motivated"], 
-          response: "Channel your energy into a creative project or learning something new." },
-        { keywords: ["angry", "frustrated"], 
-          response: "Pause for a moment, take deep breaths, and consider the root cause calmly." }
-    ];
+    { keywords: ["stress", "tired", "burnout", "overwhelmed", "pressure", "too much work"], 
+      response: "🌿 Step away for 5 minutes: Try box breathing (4s inhale, 4s hold, 4s exhale) and hydrate." },
+
+    { keywords: ["study", "exam", "homework", "school work", "assignment", "test preparation"], 
+      response: "⏱️ Use the Pomodoro technique: 25 minutes focused work → 5 minute break. After 4 cycles, take 15 minutes off." },
+
+    { keywords: ["climate", "environment", "pollution", "global warming", "save earth", "eco-friendly"], 
+      response: "🌎 Start small: Bring reusable bags, try meatless Mondays, and unplug idle electronics." },
+
+    { keywords: ["sad", "lonely", "depressed", "feeling low", "down", "heartbroken"], 
+      response: "💌 Text a friend saying 'Thinking of you' or journal 3 things you're grateful for today." },
+
+    { keywords: ["angry", "frustrated", "mad", "irritated", "annoyed", "upset"], 
+      response: "🧊 Freeze for 10 seconds. Inhale deeply through nose → hold 3s → slow mouth exhale. Repeat 3x." },
+
+    { keywords: ["money", "budget", "finance", "saving", "broke", "expenses"], 
+      response: "💰 Try the 50/30/20 rule: 50% needs, 30% wants, 20% savings/debt. Track spending with apps like Mint." },
+
+    { keywords: ["sleep", "rest", "tiredness", "insomnia", "can't sleep", "late night"], 
+      response: "🌙 Create a ritual: Warm tea + 10 min paper journaling (no screens!). Keep room at 65°F/18°C." },
+
+    { keywords: ["anxiety", "panic", "nervous", "overthinking", "worry", "social anxiety"], 
+      response: "🛑 5-4-3-2-1 grounding: Name 5 things you see, 4 you feel, 3 you hear, 2 you smell, 1 you taste." },
+
+    { keywords: ["bored", "nothing to do", "idle", "unproductive", "lazy day", "apathy"], 
+      response: "🎯 Try the 5-minute rule: Commit to any activity for just 5 minutes. Often leads to longer engagement!" },
+
+    { keywords: ["procrastination", "delaying", "putting off", "avoiding", "last minute"], 
+      response: "⏳ Break tasks into tiny steps. Example: Instead of 'clean room' → 'put 5 items away'." },
+
+    { keywords: ["focus", "concentration", "distracted", "attention", "can't concentrate"], 
+      response: "🔇 Eliminate distractions: Use website blockers, try ambient noise (rainymood.com), and clear workspace." },
+
+    { keywords: ["confidence", "self-doubt", "imposter syndrome", "insecure", "not good enough"], 
+      response: "💪 Recall 3 past successes. Stand in 'power pose' for 2 minutes to boost confidence hormones." },
+
+    { keywords: ["health", "fitness", "exercise", "workout", "gym", "body"], 
+      response: "🏃‍♂️ Start small: 10-min daily walk + add veggies to one meal. Consistency > intensity!" },
+
+    { keywords: ["nutrition", "diet", "eating", "junk food", "healthy eating", "meal prep"], 
+      response: "🥗 Use the plate method: ½ veggies, ¼ protein, ¼ whole grains. Hydrate before meals." },
+
+    { keywords: ["relationship", "fight", "argument", "misunderstanding", "communication"], 
+      response: "🤝 Use 'I feel' statements instead of blame. Take a timeout if heated, but schedule revisit." },
+
+    { keywords: ["career", "job", "promotion", "resume", "interview", "raise"], 
+      response: "📈 Update LinkedIn, quantify achievements (e.g., 'increased X by 30%'), practice STAR method." },
+
+    { keywords: ["learning", "skill", "course", "new hobby", "self-improvement", "growth"], 
+      response: "📚 Dedicate 15 min/day to focused learning. Teach someone else to reinforce knowledge." },
+
+    { keywords: ["digital detox", "phone addiction", "social media", "screen time"], 
+      response: "📵 Enable grayscale mode + set app limits. Charge devices outside bedroom at night." },
+
+    { keywords: ["pain", "headache", "backache", "sore", "injury", "chronic pain"], 
+      response: "🩹 Try 20-min heat/cold therapy. Gentle stretching. Consult professional if persistent!" },
+
+    { keywords: ["motivation", "inspiration", "low energy", "boost", "encourage", "inspire me"], 
+      response: "🚀 Ask 'What's the smallest step I can take right now?' Action → motivation → more action." },
+
+    { keywords: ["creativity", "block", "stuck", "idea", "brainstorm", "innovate"], 
+      response: "🎨 Change environment + consume art. Set timer for 10 min free-writing without editing." },
+
+    { keywords: ["gratitude", "appreciate", "thankful", "positive mindset", "silver lining"], 
+      response: "🙏 Keep a '3 good things' journal nightly. Text someone why you value them today." },
+
+    { keywords: ["decision", "choice", "indecisive", "can't choose", "options"], 
+      response: "⚖️ List pros/cons. Flip a coin - your reaction reveals true preference. Sleep on it." },
+
+    { keywords: ["failure", "mistake", "embarrassed", "setback", "disappointed"], 
+      response: "🌱 Ask: 'What did I learn? How would I handle this differently?' Failure = data, not identity." },
+    { 
+      keywords: ["1...", "one", "first", "beginner", "newbie", "starting out", "step one", "initial", "basic", "foundation"],
+      response: "1️⃣ Start with the fundamentals: Break big goals into tiny, daily actions. Track progress for motivation. Example: Want to code? Do 15 minutes daily on freeCodeCamp." 
+    },
+    { 
+      keywords: ["2...", "two", "second", "next step", "intermediate", "level up", "follow-up", "stage two", "part two", "advanced beginner"],
+      response: "2️⃣ Build consistency: Create systems, not goals. Use habit stacking (add new habits to existing routines). Example: After morning coffee → 10 min meditation." 
+    },
+    { 
+      keywords: ["3...", "three", "third", "pro level", "deep dive", "mastery", "expert", "stage three", "polishing", "refinement"],
+      response: "3️⃣ Optimize and specialize: Focus on deliberate practice with feedback loops. Teach others to reinforce knowledge. Example: Record yourself presenting → analyze weaknesses." 
+    },
+    { 
+      keywords: ["4...", "four", "fourth", "advanced", "next level", "professional", "scaling", "growth stage", "expansion", "multiplying"],
+      response: "4️⃣ Automate and delegate: Identify repetitive tasks to systemize. Build teams/tools for leverage. Example: Use Zapier for workflow automation → save 5+ hrs/week." 
+    },
+    { 
+      keywords: ["5...", "five", "fifth", "master", "innovator", "pioneering", "cutting edge", "industry leader", "visionary", "next generation"],
+      response: "5️⃣ Create legacy: Mentor others and build systems that outlast you. Focus on innovation through cross-disciplinary learning. Example: Combine AI with traditional industry knowledge." 
+    },
+    { 
+  keywords: [
+    "exhausted beyond words", 
+    "completely drained emotionally", 
+    "feeling utterly depleted", 
+    "running on empty for weeks",
+    "can't cope with this fatigue anymore"
+  ],
+  response: "🛌 Prioritize radical rest: Cancel non-essentials, take 1 full recovery day (no screens!), and hydrate with electrolytes. This isn't laziness - it's necessary maintenance."
+},
+
+{ 
+  keywords: [
+    "overwhelming sense of dread", 
+    "paralyzed by what might happen", 
+    "constant fear about the future", 
+    "can't stop imagining worst-case scenarios",
+    "anxiety is hijacking my thoughts"
+  ],
+  response: "🛡️ Practice containment: Set 'worry hours' (15 min/day), write fears on paper then lock them away. Ask: 'What's actually happening right now?' Ground in present reality."
+},
+
+{ 
+  keywords: [
+    "profoundly disconnected from others", 
+    "feeling invisible in crowded rooms", 
+    "loneliness that aches physically", 
+    "no one truly understands me",
+    "floating through life without anchors"
+  ],
+  response: "🌉 Seek micro-connections: Compliment a stranger, join interest-based communities (like book clubs), or volunteer. Meaning comes from small, consistent acts of belonging."
+},
+
+{ 
+  keywords: [
+    "burning anger that scares me", 
+    "rage I can't control", 
+    "furious at unfairness", 
+    "seeing red over small things",
+    "volcanic emotions threatening eruption"
+  ],
+  response: "🌋 Channel fire constructively: Scream into pillow → do push-ups → transform energy into action. Write unfiltered rant then burn it. Anger is power - redirect it."
+},
+
+{ 
+  keywords: [
+    "life-changing crossroads", 
+    "decision that keeps me awake", 
+    "paralyzed by major choice", 
+    "career-defining moment",
+    "path that alters everything"
+  ],
+  response: "🧭 Try future projection: Imagine choosing Option A. How do you feel in 1 year? Now Option B. Your gut reaction reveals true alignment. No perfect choices - only aligned ones."
+},
+{ 
+  keywords: [
+    "how to be happy",  // #1 most searched self-help question globally
+    "find joy", 
+    "life satisfaction", 
+    "contentment",
+    "happiness tips",
+    "not feeling fulfilled"
+  ],
+  response: "🔑 Practice daily gratitude + small acts of kindness. Happiness isn't a destination - it's built through: 1) 10 min mindfulness 2) Meaningful social connection 3) Progress toward goals."
+},
+
+{ 
+  keywords: [
+    "stop procrastinating",  // 88% of workforce admits to procrastinating daily
+    "beat laziness", 
+    "get things done", 
+    "overcome delay",
+    "why do I put things off",
+    "procrastination fix"
+  ],
+  response: "⏱️ The 2-minute rule: If it takes <2 min, do it NOW. For bigger tasks: 1) Break into tiny steps 2) Set timer for 10 min 'starter session' 3) Remove distractions (use site blockers)."
+},
+
+{ 
+  keywords: [
+    "boost confidence",  // 75% of people struggle with self-doubt
+    "believe in myself", 
+    "self-esteem help", 
+    "feel worthy",
+    "stop self-sabotage",
+    "imposter syndrome"
+  ],
+  response: "💪 Confidence building protocol: 1) Power poses for 2 min 2) List 3 past wins daily 3) Do one 'scary thing' per week. Remember: Confidence comes from ACTION, not the other way around."
+},
+
+{ 
+  keywords: [
+    "find purpose",  // Top existential search (+300% in 5 years)
+    "what's my passion", 
+    "life meaning", 
+    "career calling",
+    "why am I here",
+    "existential crisis"
+  ],
+  response: "✨ Purpose emerges through exploration: 1) Note activities where you lose track of time 2) Identify what pains you most in the world 3) Experiment with small projects. Try: 'If money didn't matter, I'd...' journaling."
+},
+
+{ 
+  keywords: [
+    "make friends",  // 1 in 3 adults report chronic loneliness
+    "social skills", 
+    "connect with people", 
+    "adult friendships",
+    "lonely but shy",
+    "how to talk to strangers"
+  ],
+  response: "🤝 Connection blueprint: 1) Join interest-based groups (Meetup.com) 2) Ask open-ended questions 3) Follow up consistently. Pro tip: Vulnerability begets vulnerability - share something personal first."
+    },
+    { 
+  keywords: [
+    "can't sleep",  // 50M+ monthly searches
+    "racing thoughts at night", 
+    "insomnia help",
+    "mind won't shut off",
+    "tossing and turning"
+  ],
+  response: "🌙 Sleep rescue protocol: 1) 60 min no screens 2) Write worries on paper 3) 4-7-8 breathing (inhale 4s, hold 7s, exhale 8s) 4) Keep bedroom at 65°F. Still awake? Get up and read physical book."
+      }
+];
 
     // Matching logic
     for (let item of solutions) {
