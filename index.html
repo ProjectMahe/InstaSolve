@@ -53,6 +53,24 @@
         font-size: 1.1em;
         color: #333;
     }
+
+    /* Responsive adjustments */
+@media (min-width: 400px) {
+    .input-group {
+        flex-direction: row;
+        justify-content: center;
+    }
+    
+    button {
+        width: auto;
+    }
+}
+
+/* Tap target sizing for better mobile UX */
+a, button, input, select, textarea {
+    min-height: 44px;
+    min-width: 44px;
+}
 </style>
 </head>
 <body>
