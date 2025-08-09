@@ -143,30 +143,31 @@ function solve() {
 }
 </script>
     <style>
-    /* Footer Styling */
-    .footer {
-        position: bottom;
-        margin-top: 2rem;
+    /* Fixed Footer Styling */
+    .fixed-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
         padding: 1.5rem;
         background-color: #e2e8f0;
         color: #64748b;
         text-align: center;
         font-family: 'Inter', sans-serif;
         font-size: 0.875rem;
-        border-top-left-radius: 1rem;
-        border-top-right-radius: 1rem;
-        width: 100%;
+        border-top: 1px solid #cbd5e1;
+        z-index: 999;
         box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
     }
 
-    .content-container {
-        flex-grow: 1;
+    /* Add padding to the body to prevent content from being hidden behind the footer */
+    body {
+        padding-bottom: 5rem; /* Adjust this value to match the footer's height */
     }
 </style>
 
-<footer class="footer">
+<footer class="fixed-footer">
     <p>&copy; 2024 InstaSolve. All rights reserved.</p>
 </footer>
-    
 </body>
 </html>
