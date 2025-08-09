@@ -10,7 +10,7 @@ Built for the Redmond Library Hackathon 2025.
 - Works offline (no backend required)
 
 ## 📸 Demo
-![Demo Screenshot](assets/screenshots/demo.png)
+![Demo Screenshot](assets/screenshots/Screenshot_2025_0809_072031.png)
 
 ## 🛠 Tech Stack
 - HTML
